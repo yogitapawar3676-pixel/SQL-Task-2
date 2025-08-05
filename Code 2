@@ -1,0 +1,64 @@
+CREATE DATABASE IF NOT EXISTS SchoolDB;
+USE SchoolDB;
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    age INT,
+    email VARCHAR(100),
+    grade CHAR(2) DEFAULT 'NA'
+);
+
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY AUTO_INCREMENT,
+    course_name VARCHAR(100) NOT NULL,
+    credits INT DEFAULT 3
+);
+
+CREATE TABLE Enrollment (
+    enrollment_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE ,
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
+
+
+INSERT INTO Student (name, age, email) VALUES ('Amit Sharma', 16, 'amit@gmail.com');
+INSERT INTO Student (name, age) VALUES ('Priya Verma', 17); 
+INSERT INTO Student (name, age, email, grade) VALUES ('Ravi Kumar', NULL, 'ravi@gmail.com', 'B');
+INSERT INTO Student (name) VALUES ('Suman Gupta'); 
+
+INSERT INTO Course (course_name, credits) VALUES ('Mathematics', 4);
+INSERT INTO Course (course_name) VALUES ('English'); 
+INSERT INTO Course (course_name) VALUES ('Science'); 
+
+INSERT INTO Enrollment (student_id, course_id) VALUES (1, 1);
+INSERT INTO Enrollment (student_id, course_id, enrollment_date) VALUES (2, 2, '2025-08-01');
+INSERT INTO Enrollment (student_id, course_id) VALUES (4, 3); 
+
+
+UPDATE Student SET age = 15 WHERE age IS NULL;
+
+UPDATE Student SET grade = 'A' WHERE student_id = 1;
+
+DELETE FROM Enrollment
+WHERE enrollment_id = 2;
+
+DELETE FROM Student
+WHERE student_id = 3;
+
+
+SELECT * FROM Student WHERE email IS NULL;
+
+INSERT INTO Student (name, age)
+SELECT name, age FROM Student WHERE student_id = 1;
+
+START TRANSACTION;
+DELETE FROM Student WHERE student_id = 2;
+ROLLBACK;
+
+SELECT * FROM Student;
+SELECT * FROM Course;
+
